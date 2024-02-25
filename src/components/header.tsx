@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function () {
     return (
-        <div className="flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between mb-6">
 
             <div className='flex items-center gap-5'>
                 <Link href="/" className='text-2xl font-extrabold text-white'>
