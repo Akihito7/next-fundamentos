@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./(store)/globals.css";
 
 //ao adicionar o variable ao inter , estamos criando uma variavel global na nossa aplicação, com a font inter. isso vai nos permitir definir a font inter sendo a font padrão.
 const inter = Inter({ subsets: ["latin"], variable : "--font-inter"});
