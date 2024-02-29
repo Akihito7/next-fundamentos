@@ -1,17 +1,22 @@
 import { api } from "@/app/services/api";
 import { product } from "@/app/types/product";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 async function getFeaturedProducts(): Promise<product[]> {
     const response = await api("/featured", {
-        cache: "no-cache"
+        cache: "no-cache",
     })
 
     const featuredProducts = await response.json();
 
     return featuredProducts
 }
+export const metadata: Metadata = {
+    title: "Home",
+};
+
 export default async function Home() {
 
     const [mainProduct, ...others] = await getFeaturedProducts();
@@ -19,7 +24,7 @@ export default async function Home() {
     return (
         <div className="grid max-h-[680px] grid-rows-6 grid-cols-9 gap-6">
 
-            <Link href="/" className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-end">
+            <Link href={`/product/${mainProduct.slug}`} className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-end">
 
                 <Image
                     src={mainProduct.image}
@@ -34,7 +39,7 @@ export default async function Home() {
 
                     <span className="text-sm truncate">{mainProduct.title}</span>
 
-                    <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold px-4">{mainProduct.price.toLocaleString("PT", {
+                    <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold">{mainProduct.price.toLocaleString("PT", {
                         currency: "BRl",
                         style: "currency",
                         minimumSignificantDigits: 2,
@@ -46,10 +51,11 @@ export default async function Home() {
 
 
             {
-                others.map(product => {
+                others.map((product, key) => {
                     return (
-                        <Link href="/"
+                        <Link href={`/product/${product.slug}`}
                             className="group relative col-span-3 row-span-3 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-end"
+                            key={key}
                         >
 
                             <Image
@@ -66,8 +72,8 @@ export default async function Home() {
                             <div className="absolute bottom-10 right-10 h-12 flex items-center gap-2 max-w-[280px] rounded-full border-2 border-zinc-500 pl-4 bg-black/60 p-1" >
 
                                 <span className="text-sm truncate">{product.title}</span>
-                                <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold px-4">{
-                                    mainProduct.price.
+                                <span className="flex h-full items-center justify-center rounded-full bg-violet-500 px-4 font-semibold">{
+                                    product.price.
                                         toLocaleString("PT", {
                                             currency: "BRl",
                                             style: "currency",
